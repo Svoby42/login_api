@@ -10,6 +10,15 @@ class UserTest < ActiveSupport::TestCase
     assert @user.valid?
   end
 
+  test "should be saved" do
+    @user.name = "pepa"
+    @user.email = "olsak@spsmb.cz"
+    @user.password = "olsacek"
+    @user.password_confirmation = "olsacek"
+    @user.save
+    assert_equal User.first, @user
+  end
+
   test "should be present" do
     @user.name = "   "
     assert_not @user.valid?
