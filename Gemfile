@@ -10,6 +10,8 @@ gem "puma", "~> 5.0"
 gem "jbuilder"
 gem "httparty"
 gem "jsonapi-resources"
+gem "jwt"
+gem "dotenv-rails"
 
 gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
