@@ -3,12 +3,13 @@ class Api::V1::UsersController < ApplicationController
   # GET /api/v1/users
   def index
     @users = User.order(name: :desc)
-    render json: @users
+    render json: @users, status: :ok
   end
 
   # GET /api/v1/users/:id
   def show
     @user = User.find(params[:id])
+    render json: @user, status: :ok              # This is where the User_Serializer is used
   end
 
   # POST /api/v1/users
@@ -37,7 +38,7 @@ class Api::V1::UsersController < ApplicationController
 
   # DELETE /api/v1/users/:id
   def destroy
-    @user.delete
+    @user.destroy
   end
 
   # PUT /api/v1/users/:id
@@ -53,5 +54,7 @@ class Api::V1::UsersController < ApplicationController
 
   def find_user
     @user = User.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { errors: "User not found" }, status: :not_found
   end
 end
