@@ -14,6 +14,8 @@ gem "jwt"
 gem "dotenv-rails"
 gem "factory_bot_rails"
 gem "faker"
+gem "database_cleaner"
+gem "database_cleaner-active_record"
 
 gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
