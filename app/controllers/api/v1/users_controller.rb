@@ -34,7 +34,7 @@ class Api::V1::UsersController < ApplicationController
       end
       render json: {
         error: error_array
-      }, status: :bad_request
+      }, status: :unprocessable_entity
     end
   end
 

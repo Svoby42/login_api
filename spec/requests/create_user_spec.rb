@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Create', type: :request do
   describe 'POST /users' do
     context 'with valid parameters' do
-
       before do
         post '/api/v1/users', params:
           { user: {
@@ -29,6 +28,20 @@ RSpec.describe 'Create', type: :request do
 
       it 'returns the name' do
         expect(json['user']['name']).to eq("olsak")
+      end
+    end
+
+    context 'with invalid parameters' do
+      before do
+        post '/api/v1/users', params:
+          { user: {
+            full_name: "",
+            name: ""
+          } }
+      end
+
+      it 'returns an unprocessable entity status' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
