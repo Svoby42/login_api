@@ -44,7 +44,7 @@ class Api::V1::UsersController < ApplicationController
 
   # PUT /api/v1/users/:id
   def update
-    @user.update(params.permit(:name, :password))
+    @user.update(params.permit(:full_name, :password))
   end
 
   private

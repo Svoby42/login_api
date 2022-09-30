@@ -12,6 +12,8 @@ gem "httparty"
 gem "jsonapi-resources"
 gem "jwt"
 gem "dotenv-rails"
+gem "factory_bot_rails"
+gem "faker"
 
 gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
@@ -20,10 +22,12 @@ gem "bootsnap", require: false
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "minitest-reporters"
+  gem "rspec-rails"
 end
 
-group :development do
-  # gem "spring"
+group :test do
+  gem "factory_bot_rails"
+  gem "faker"
 end
 
 
