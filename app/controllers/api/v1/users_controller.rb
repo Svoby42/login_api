@@ -1,4 +1,5 @@
 class Api::V1::UsersController < ApplicationController
+  before_action :authorize_request, except: :create
 
   # GET /api/v1/users
   def index
@@ -31,7 +32,7 @@ class Api::V1::UsersController < ApplicationController
         error_array << error.full_message
       end
       render json: {
-        errors: error_array
+        error: error_array
       }, status: :bad_request
     end
   end
