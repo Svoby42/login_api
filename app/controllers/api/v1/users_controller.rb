@@ -16,6 +16,7 @@ class Api::V1::UsersController < ApplicationController
   # POST /api/v1/users
   def create
     @user = User.new(
+      full_name: params[:user][:full_name],
       name: params[:user][:name],
       email: params[:user][:email],
       password: params[:user][:password],
