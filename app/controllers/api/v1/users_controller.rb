@@ -42,7 +42,12 @@ class Api::V1::UsersController < ApplicationController
   # PATCH /api/v1/users/:id
   def update
     get_current_user
-    @user.update!(params.require(:user).permit(:full_name, :role))
+    @user.update(params.permit(:full_name, :role))
+    if @user.save
+      render json: {
+        message: "User successfully updated"
+      }, status: :ok
+    end
   end
 
   private
