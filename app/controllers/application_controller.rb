@@ -41,9 +41,6 @@ class ApplicationController < ActionController::API
       @decoded = JsonWebToken.decode(header)
       unless @decoded[:role].eql?("ADMIN")
         @user_from_params = User.find(params[:id])
-        puts @user_from_params.nil?
-        puts "#{@decoded} #{@user_from_params[:id]}"
-        puts @decoded[:id].eql?(@user_from_params[:id])
         if @decoded[:id].eql?(@user_from_params[:id])
           @current_user = @user_from_params
         else

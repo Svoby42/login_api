@@ -69,11 +69,15 @@ RSpec.describe 'Users', type: :request do
                   password: "brekeke",
                   password_confirmation: "brekeke"
               }, headers: { Authorization: @token }
-        puts request.raw_post
       end
 
       it "password should change" do
-        puts response.body
+        expect(response).to have_http_status(:success)
+      end
+
+      it "login with changed password" do
+        post "/api/v1/auth/login",
+             params: { email: user.email, password: "brekeke" }
         expect(response).to have_http_status(:success)
       end
     end
