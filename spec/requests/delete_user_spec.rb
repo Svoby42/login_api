@@ -35,7 +35,7 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
-    context "without admin role" do
+    context "without admin role delete yourself" do
       before do
         post '/api/v1/auth/login', params:
           {
@@ -45,7 +45,7 @@ RSpec.describe 'Users', type: :request do
         delete "/api/v1/users/#{user.id}", headers: { Authorization: json['token'] }
       end
       it 'returns unauthorized status code' do
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:success)
       end
     end
   end

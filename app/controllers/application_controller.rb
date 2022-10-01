@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
         @current_user = User.find(params[:id])
         @decoded = JsonWebToken.decode(header)
         if @current_user[:email].eql?(@decoded[:email])
-          @current_user = User.find(@decoded[:user_id])
+          @current_user = User.find(@decoded[:id])
         elsif @decoded[:role].eql?("ADMIN")
           @current_user = User.find(params[:id])
         end
@@ -40,9 +40,17 @@ class ApplicationController < ActionController::API
     else
       @decoded = JsonWebToken.decode(header)
       unless @decoded[:role].eql?("ADMIN")
-        render json: {
-          error: "Insufficient rights"
-        }, status: :unauthorized
+        @user_from_params = User.find(params[:id])
+        puts @user_from_params.nil?
+        puts "#{@decoded} #{@user_from_params[:id]}"
+        puts @decoded[:id].eql?(@user_from_params[:id])
+        if @decoded[:id].eql?(@user_from_params[:id])
+          @current_user = @user_from_params
+        else
+          render json: {
+            error: "Insufficient rights"
+          }, status: :unauthorized
+        end
       end
     end
   end

@@ -42,11 +42,34 @@ class Api::V1::UsersController < ApplicationController
   # PATCH /api/v1/users/:id
   def update
     get_current_user
-    @user.update(params.permit(:full_name, :role))
-    if @user.save
+    @user.update(params.permit(:full_name, :password, :password_confirmation))
+    if params[:old_password].nil?
+      if @user.save
+        render json: {
+          message: "User successfully updated"
+        }, status: :ok
+      else
+        generate_errors
+      end
+    elsif params[:old_password].present?
+      if params[:password].eql?(params[:password_confirmation])
+        @user.password = params[:password]
+        if @user.save
+          render json: {
+            message: "Password successfully updated"
+          }, status: :ok
+        else
+          generate_errors
+        end
+      else
+        render json: {
+          message: "Password & Password confirmation don't match"
+        }, status: :bad_request
+      end
+    else
       render json: {
-        message: "User successfully updated"
-      }, status: :ok
+        message: "The current password is different"
+      }, status: :bad_request
     end
   end
 
