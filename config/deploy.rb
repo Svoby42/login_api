@@ -2,6 +2,7 @@
 lock "~> 3.17.1"
 
 set :application, "login_api"
+set :use_sudo, false
 # password:username IS NO LONGER ACCEPTED
 # you have to USE your TOKEN INSTEAD
 set :repo_url, "https://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@github.com/Svoby42/login_api.git"
