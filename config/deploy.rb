@@ -10,23 +10,7 @@ set :rvm_ruby_version, "ruby-3.1.2"
 set :default_env, { rvm_bin_path: "~/.rvm/bin" }
 
 namespace :deploy do
-  desc "Run seed"
-  task :seed do
-    on roles(:all) do
-      within current_path do
-        execute :bundle, :exec, 'rails', 'db:seed', 'RAILS_ENV=production'
-      end
-    end
-  end
-  after :migrating, :seed
 
-  desc "Secret"
-  task :secret do
-    on roles(:all) do
-      execute "export SECRET_KEY_BASE=`bundle exec rake secret`"
-    end
-  end
-  before :finishing, :secret
 end
 
 # Default branch is :master
