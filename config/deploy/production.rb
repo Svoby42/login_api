@@ -7,7 +7,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 server "70.34.222.168", user: "svoby", roles: %w[app db web], port: 55555
-
+config.secret_key_base = ENV["SECRET_KEY_BASE"]
 
 # role-based syntax
 # ==================
