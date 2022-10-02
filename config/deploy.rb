@@ -17,8 +17,15 @@ namespace :deploy do
       end
     end
   end
-
   after :migrating, :seed
+
+  desc "Secret"
+  task :secret do
+    on roles(:all) do
+      execute "export SECRET_KEY_BASE=`bundle exec rake secret`"
+    end
+  end
+  before :finishing, :secret
 end
 
 # Default branch is :master
