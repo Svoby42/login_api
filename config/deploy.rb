@@ -2,7 +2,9 @@
 lock "~> 3.17.1"
 
 set :application, "login_api"
-set :repo_url, "git@github.com:Svoby42/login_api.git"
+# password:username IS NO LONGER ACCEPTED
+# you have to USE your TOKEN INSTEAD
+set :repo_url, "https://#{ENV['GITHUB_TOKEN']}@github.com/Svoby42/login_api.git"
 set :rvm_ruby_version, "ruby-3.1.2"
 set :default_env, { rvm_bin_path: "~/.rvm/bin" }
 

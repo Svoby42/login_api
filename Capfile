@@ -1,4 +1,5 @@
 # Load DSL and set up stages
+# THE ORDER IS VERY IMPORTANT
 require "capistrano/setup"
 require "capistrano/deploy"
 
