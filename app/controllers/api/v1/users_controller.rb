@@ -19,10 +19,10 @@ class Api::V1::UsersController < ApplicationController
     create_user_from_params
     if @user.save
       render json: {
-        message: "Account successfully created",
+        message: "Account successfully created, check your inbox",
         user: @user
       }, status: :created
-      UserMailer.with(user: @user).welcome(@user).deliver_later
+      UserMailer.welcome(@user).deliver
     else
       generate_errors
     end

@@ -17,10 +17,6 @@ gem "faker"
 gem "database_cleaner"
 gem "database_cleaner-active_record"
 
-# gems for mailing
-gem "letter_opener"
-gem "mail_interceptor"
-
 gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
