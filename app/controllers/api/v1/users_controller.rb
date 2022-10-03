@@ -22,6 +22,7 @@ class Api::V1::UsersController < ApplicationController
         message: "Account successfully created",
         user: @user
       }, status: :created
+      UserMailer.with(user: @user).welcome(@user).deliver_later
     else
       generate_errors
     end

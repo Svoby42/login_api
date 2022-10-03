@@ -14,6 +14,8 @@
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'database_cleaner'
+require 'dotenv'
+Dotenv.load('../.env')
 
 RSpec.configure do |config|
   config.before(:suite) do
