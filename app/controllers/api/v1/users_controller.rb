@@ -24,7 +24,7 @@ class Api::V1::UsersController < ApplicationController
         message: "Account successfully created, check your inbox",
         user: @user
       }, status: :created
-      UserMailer.welcome(@user).deliver
+      # UserMailer.welcome(@user).deliver
     else
       generate_errors
     end
@@ -84,11 +84,11 @@ class Api::V1::UsersController < ApplicationController
 
   def create_user_from_params
     @user = User.new(
-      full_name: params[:user][:full_name],
-      name: params[:user][:name],
-      email: params[:user][:email],
-      password: params[:user][:password],
-      password_confirmation: params[:user][:password_confirmation],
+      full_name: params[:full_name],
+      name: params[:name],
+      email: params[:email],
+      password: params[:password],
+      password_confirmation: params[:password_confirmation],
       role: "USER"
     )
   end

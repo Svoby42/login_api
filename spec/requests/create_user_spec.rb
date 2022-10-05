@@ -5,13 +5,13 @@ RSpec.describe 'Create', type: :request do
     context 'with valid parameters' do
       before do
         post '/api/v1/users', params:
-          { user: {
+          {
             full_name: "Josef Olsak",
             name: "olsak",
             email: "olsak@spsmb.cz",
             password: "jednadvatri",
             password_confirmation: "jednadvatri"
-          } }
+          }
       end
 
       it 'user gets saved' do
@@ -34,10 +34,10 @@ RSpec.describe 'Create', type: :request do
     context 'with invalid parameters' do
       before do
         post '/api/v1/users', params:
-          { user: {
+          {
             full_name: "",
             name: ""
-          } }
+          }
       end
 
       it 'returns an unprocessable entity status' do
