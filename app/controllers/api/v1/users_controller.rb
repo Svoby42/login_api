@@ -11,7 +11,9 @@ class Api::V1::UsersController < ApplicationController
   # GET /api/v1/users/:id
   def show
     @user = User.find(params[:id])
-    render json: @user, status: :ok              # This is where the User_Serializer is used
+    render json: {
+      user: @user
+    }, status: :ok              # This is where the User_Serializer is used
   end
 
   # POST /api/v1/users
