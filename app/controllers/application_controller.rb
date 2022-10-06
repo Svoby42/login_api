@@ -26,6 +26,8 @@ class ApplicationController < ActionController::API
             @current_user
           elsif @decoded[:role].eql?("ADMIN")
             @current_user
+          else
+            render json: { errors: "Insufficient rights" }, status: :unauthorized
           end
         end
       rescue ActiveRecord::RecordNotFound => e
