@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :authorize_request, except: :create
-  before_action :is_admin?, only: %i[index update destroy]
+  #before_action :is_admin?, only: %i[index update destroy]
 
   # GET /api/v1/users
   def index
@@ -10,7 +10,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /api/v1/users/:id
   def show
-    @user = User.find(params[:id])
+    @user = @current_user
     render json: {
       user: @user
     }, status: :ok              # This is where the User_Serializer is used

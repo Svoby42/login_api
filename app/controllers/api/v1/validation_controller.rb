@@ -2,7 +2,6 @@ class Api::V1::ValidationController < ApplicationController
 
   # POST /api/v1/validate/email
   def validate_email
-    puts request.raw_post
     user = User.find_by_email(params[:email])
     if user.present?
       render json: {
