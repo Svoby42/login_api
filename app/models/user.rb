@@ -9,6 +9,5 @@ class User < ApplicationRecord
 
   has_secure_password
   validates :password,  presence: true, length: { minimum: 6 },
-            if: :password                                      # validate only if a password
-                                                                  # is in the request
+            if: :password                                      # validate only if a password is in the request
 end

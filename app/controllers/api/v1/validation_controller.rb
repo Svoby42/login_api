@@ -2,14 +2,20 @@ class Api::V1::ValidationController < ApplicationController
 
   # POST /api/v1/validate/email
   def validate_email
-    if User.find_by_email(params[:email])
+    puts request.raw_post
+    user = User.find_by_email(params[:email])
+    if user.present?
       render json: {
         message: "Email již někdo použil"
       }, status: :conflict
-    else
+    elsif user.nil?
       render json: {
         message: "Email je volný"
       }, status: :ok
+    elsif params[:email].nil?
+      render json: {
+        error: "Bad request"
+      }, status: :bad_request
     end
   end
 
