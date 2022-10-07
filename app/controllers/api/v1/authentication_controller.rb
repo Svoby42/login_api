@@ -4,20 +4,26 @@ class Api::V1::AuthenticationController < ApplicationController
   # POST /api/v1/auth/login
   def login
     @user = User.find_by_email(params[:email])
-    if @user&.authenticate(params[:password])
-      token = JsonWebToken.encode(id: @user.id, role: @user.role, email: @user.email)
-      time = Time.now + 24.hours.to_i
-      render json: { token: token, exp: time.strftime("%d.%m.%Y %H:%M"),
-                     user: {
-                       id: @user.id,
-                       email: @user.email,
-                       full_name: @user.full_name,
-                       name: @user.name,
-                       role: @user.role
-                     }
-      }, status: :ok
+    unless @user.nil?
+      if @user&.authenticate(params[:password])
+        token = JsonWebToken.encode(id: @user.id, role: @user.role, email: @user.email)
+        time = Time.now + 24.hours.to_i
+        render json: { token: token, exp: time.strftime("%d.%m.%Y %H:%M"),
+                       user: {
+                         id: @user.id,
+                         email: @user.email,
+                         full_name: @user.full_name,
+                         name: @user.name,
+                         role: @user.role
+                       }
+        }, status: :ok
+      else
+        render json: {
+          error: "Wrong credentials"
+        }, status: :unauthorized
+      end
     else
-      render json: { error: "Wrong credentials" }, status: :unauthorized
+      render json: { error: "User doesn't exist" }, status: :not_found
     end
   end
 
