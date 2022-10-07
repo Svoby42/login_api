@@ -57,7 +57,25 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
-    context 'change password' do
+    context 'without admin role for another user' do
+      before do
+        post "/api/v1/auth/login",
+             params: { email: user.email, password: user.password }
+        @token = json['token']
+        patch "/api/v1/users/#{another_user.id}",
+              params: { full_name: "Karel Havlickovic" }, headers: { Authorization: @token }
+      end
+
+      it "full_name should be the same" do
+        expect(another_user.reload.full_name).to eq(another_user.full_name)
+      end
+
+      it "should return unauthorized" do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'change password as the current user' do
       before do
         post "/api/v1/auth/login",
              params: { email: user.email, password: user.password }
@@ -79,6 +97,72 @@ RSpec.describe 'Users', type: :request do
         post "/api/v1/auth/login",
              params: { email: user.email, password: "brekeke" }
         expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'change password as someone else' do
+      before do
+        post "/api/v1/auth/login",
+             params: { email: user.email, password: user.password }
+        @token = json['token']
+        patch "/api/v1/users/#{another_user.id}",
+              params:
+                {
+                  old_password: another_user.password,
+                  password: "brekeke",
+                  password_confirmation: "brekeke"
+                }, headers: { Authorization: @token }
+      end
+
+      it "should return unauthorized" do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'change password without old password' do
+      before do
+        post "/api/v1/auth/login",
+             params: { email: user.email, password: user.password }
+        @token = json['token']
+        @original_password = user.password
+        patch "/api/v1/users/#{user.id}",
+              params:
+                {
+                  password: "brekeke",
+                  password_confirmation: "brekeke"
+                }, headers: { Authorization: @token }
+      end
+
+      it "should return bad request" do
+        expect(response).to have_http_status(:bad_request)
+      end
+
+      it "password should stay the same" do
+        expect(user.password).to eq(@original_password)
+      end
+    end
+
+    context 'change password with wrong old password' do
+      before do
+        post "/api/v1/auth/login",
+             params: { email: user.email, password: user.password }
+        @token = json['token']
+        @original_password = user.password
+        patch "/api/v1/users/#{user.id}",
+              params:
+                {
+                  old_password: "wrongpassword",
+                  password: "brekeke",
+                  password_confirmation: "brekeke"
+                }, headers: { Authorization: @token }
+      end
+
+      it "should return bad request" do
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it "password should stay the same" do
+        expect(user.password).to eq(@original_password)
       end
     end
   end

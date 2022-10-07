@@ -45,8 +45,8 @@ class Api::V1::UsersController < ApplicationController
   # PATCH /api/v1/users/:id
   def update
     get_current_user
-    @user.update(params.permit(:full_name, :password, :password_confirmation))
-    if params[:old_password].nil?
+    if params[:old_password].nil? && params[:password].nil?
+      @user.update(params.permit(:full_name, :email))
       if @user.save
         render json: {
           message: "User successfully updated"
@@ -54,15 +54,22 @@ class Api::V1::UsersController < ApplicationController
       else
         generate_errors
       end
-    elsif params[:old_password].present?
-      if params[:password].eql?(params[:password_confirmation])
-        @user.password = params[:password]
-        if @user.save
-          render json: {
-            message: "Password successfully updated"
-          }, status: :ok
+    elsif params[:old_password].present? && params[:password].present?
+      if params[:password].eql?(params[:password_confirmation]) # POROVNAT HESLA
+        if BCrypt::Password.new(@user.password_digest) == params[:old_password]
+          @user.password = params[:password]
+          @user.update(params.permit(:password, :password_confirmation))
+          if @user.save
+            render json: {
+              message: "Password successfully updated"
+            }, status: :ok
+          else
+            generate_errors
+          end
         else
-          generate_errors
+          render json: {
+            message: "The old password is incorrect"
+          }, status: :unauthorized
         end
       else
         render json: {
@@ -71,7 +78,7 @@ class Api::V1::UsersController < ApplicationController
       end
     else
       render json: {
-        message: "The current password is different"
+        message: "Unpermitted operation"
       }, status: :bad_request
     end
   end
