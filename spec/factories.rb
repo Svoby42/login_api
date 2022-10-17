@@ -1,14 +1,7 @@
 FactoryBot.define do
   factory :post do
-    title { "MyString" }
-    content { "MyString" }
-    user_id { 1 }
-    topic_id { 1 }
-  end
-
-  factory :article do
-    title { "MyString" }
-    content { "MyString" }
+    title { Faker::Name.unique.name }
+    content { "Skakal pes pres oves" }
     user_id { 1 }
     topic_id { 1 }
   end

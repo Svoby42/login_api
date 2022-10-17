@@ -1,5 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   before_action :can_post, except: %i[ index show ]
+  before_action :is_owner?, only: %i[ destroy ]
 
   def index
 
@@ -26,7 +27,13 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def destroy
-
+    if @post.destroy
+      render json: {
+        message: "Post successfully deleted"
+      }, status: :ok
+    else
+      generate_errors
+    end
   end
 
   def update

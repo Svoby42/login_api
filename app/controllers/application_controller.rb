@@ -48,4 +48,14 @@ class ApplicationController < ActionController::API
       render json: { errors: e.message }, status: :unauthorized
     end
   end
+
+  def is_owner?
+    header = request.headers['Authorization']
+    header = header.split(' ').last if header
+    @decoded = JsonWebToken.decode(header)
+    @post = Post.find(params[:id])
+    unless @post[:user_id] == @decoded[:id]
+      render json: { error: "Wrong user" }, status: :unauthorized
+    end
+  end
 end
