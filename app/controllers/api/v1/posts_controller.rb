@@ -1,21 +1,27 @@
 class Api::V1::PostsController < ApplicationController
-  before_action :authorize_request
+  before_action :can_post, except: %i[ index show ]
 
   def index
 
   end
 
+  # GET /api/v1/posts/:id
   def show
-
+    @post = Post.find(params[:id])
+    render json: @post, status: :ok
   end
 
+  # POST /api/v1/posts
   def create
     create_post_from_params
     if @post.save
       render json: {
         message: "Post successfully submitted",
-        title: @post[:title]
+        title: @post[:title],
+        id: @post[:id]
       }, status: :created
+    else
+      generate_errors
     end
   end
 

@@ -37,4 +37,15 @@ class ApplicationController < ActionController::API
       end
     end
   end
+
+  def can_post
+    header = request.headers['Authorization']
+    header = header.split(' ').last if header
+    @decoded = JsonWebToken.decode(header)
+    begin
+      @current_user = User.find(@decoded[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { errors: e.message }, status: :unauthorized
+    end
+  end
 end
