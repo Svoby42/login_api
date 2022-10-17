@@ -10,4 +10,6 @@ class User < ApplicationRecord
   has_secure_password
   validates :password,  presence: true, length: { minimum: 6 },
             if: :password                                      # validate only if a password is in the request
+
+  has_many :posts, dependent: :delete_all
 end
