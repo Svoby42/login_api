@@ -1,6 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   before_action :can_post, except: %i[ index show ]
-  before_action :is_owner?, only: %i[ destroy ]
+  before_action :is_owner?, only: %i[ destroy update ]
 
   # GET /api/v1/posts
   def index
@@ -39,8 +39,17 @@ class Api::V1::PostsController < ApplicationController
     end
   end
 
+  # PATCH /api/v1/posts/:id
   def update
-
+    @post.update(params.permit(:title, :content))
+    if @post.save
+      render json: {
+        message: "Post successfully updated",
+        post: @post
+      }, status: :ok
+    else
+      generate_errors
+    end
   end
 
   private

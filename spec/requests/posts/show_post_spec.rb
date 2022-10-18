@@ -1,5 +1,5 @@
 RSpec.describe 'Show', type: :request do
-  describe "GET /users/:id" do
+  describe "GET /posts/:id" do
     let!(:my_user) { FactoryBot.create(:user) }
     let!(:my_post) { FactoryBot.create(:post, user_id: my_user.id) }
     context "in normal situation" do
