@@ -4,7 +4,7 @@ class Api::V1::PostsController < ApplicationController
 
   # GET /api/v1/posts
   def index
-    @posts = Post.all.includes(:user)
+    @posts = Post.all.includes(:user).sort_by(&:created_at).take(params[:count].to_i)
     render json: @posts, status: :ok
   end
 
