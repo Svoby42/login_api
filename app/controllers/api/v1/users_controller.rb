@@ -1,10 +1,9 @@
 class Api::V1::UsersController < ApplicationController
   before_action :authorize_request, except: :create
-  #before_action :is_admin?, only: %i[index update destroy]
 
   # GET /api/v1/users
   def index
-    @users = User.order(name: :desc)
+    @users = User.all.includes(:posts).order(name: :desc)
     render json: @users, status: :ok
   end
 

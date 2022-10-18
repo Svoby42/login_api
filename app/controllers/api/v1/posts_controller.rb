@@ -2,8 +2,10 @@ class Api::V1::PostsController < ApplicationController
   before_action :can_post, except: %i[ index show ]
   before_action :is_owner?, only: %i[ destroy ]
 
+  # GET /api/v1/posts
   def index
-
+    @posts = Post.all.includes(:user)
+    render json: @posts, status: :ok
   end
 
   # GET /api/v1/posts/:id
@@ -26,6 +28,7 @@ class Api::V1::PostsController < ApplicationController
     end
   end
 
+  # DELETE /api/v1/posts/:id
   def destroy
     if @post.destroy
       render json: {

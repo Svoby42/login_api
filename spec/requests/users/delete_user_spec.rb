@@ -44,7 +44,7 @@ RSpec.describe 'Users', type: :request do
           }
         delete "/api/v1/users/#{user.id}", headers: { Authorization: json['token'] }
       end
-      it 'returns unauthorized status code' do
+      it 'returns sucessful status code' do
         expect(response).to have_http_status(:success)
       end
     end
