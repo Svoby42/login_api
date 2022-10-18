@@ -21,6 +21,7 @@ class Api::V1::PostsController < ApplicationController
       render json: {
         message: "Post successfully submitted",
         title: @post[:title],
+        slug: @post[:slug],
         id: @post[:id]
       }, status: :created
     else
@@ -41,7 +42,7 @@ class Api::V1::PostsController < ApplicationController
 
   # PATCH /api/v1/posts/:id
   def update
-    @post.update(params.permit(:title, :content))
+    @post.update(params.permit(:title, :content, :slug))
     if @post.save
       render json: {
         message: "Post successfully updated",
@@ -58,6 +59,7 @@ class Api::V1::PostsController < ApplicationController
     @post = Post.new(
       title: params[:title],
       content: params[:content],
+      slug: params[:slug],
       user_id: @current_user[:id]
     )
   end

@@ -23,9 +23,12 @@ end
 
 users = User.order(:created_at)
 10.times do
-  users.each { |user| user.posts.create!([{
-                                            title: Faker::Company.unique.bs,
+  users.each { |user|
+    title = Faker::Name.unique.first_name
+    user.posts.create!([{
+                                            title: title,
                                             content: Faker::Lorem.sentence(word_count: 10),
+                                            slug: Faker::Internet.slug(words: title),
                                             user_id: user.id
                                           }]) }
 end

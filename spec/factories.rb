@@ -4,6 +4,7 @@ FactoryBot.define do
     content { "Skakal pes pres oves" }
     user_id { 1 }
     topic_id { 1 }
+    slug { Faker::Internet.slug }
   end
 
   factory :user do

@@ -27,6 +27,7 @@ RSpec.describe 'Users', type: :request do
           post '/api/v1/posts', params: {
             title: "Titulek random",
             content: "Random content",
+            slug: Faker::Internet.slug(words: "Titulek random")
           }, headers: { Authorization: @token }
         end
 

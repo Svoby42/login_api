@@ -42,6 +42,7 @@ RSpec.describe 'Create', type: :request do
         post '/api/v1/posts', params: {
           title: "Titulek random",
           content: "Random content",
+          slug: Faker::Internet.slug(words: "Titulek random")
         }, headers: { Authorization: @token }
         post '/api/v1/auth/login', params:
           {
