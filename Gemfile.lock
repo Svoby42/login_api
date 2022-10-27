@@ -174,6 +174,7 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.13.8-x86_64-linux)
       racc (~> 1.4)
+    pg (1.4.4)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.0)
@@ -232,7 +233,6 @@ GEM
       rspec-support (~> 3.10)
     rspec-support (3.11.1)
     ruby-progressbar (1.11.0)
-    sqlite3 (1.5.1-x86_64-linux)
     sshkit (1.21.3)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -269,12 +269,12 @@ DEPENDENCIES
   jsonapi-resources
   jwt
   minitest-reporters
+  pg
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.3)
   rails-i18n (~> 7.0.0)
   rspec-rails
-  sqlite3 (~> 1.4)
   tzinfo-data
 
 RUBY VERSION
