@@ -1,5 +1,6 @@
 class UserMailer < ApplicationMailer
-  default from: "noreply@#{ENV['DOMAIN']}"
+  # default from: "noreply@#{ENV['DOMAIN']}"
+  default from: ENV['SMTP_USERNAME']
 
   def welcome(user)
     mail(to: user.email,
